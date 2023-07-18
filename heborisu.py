@@ -150,25 +150,20 @@ def run_game():
         for y, row in enumerate(grid):
             for x, col in enumerate(row):
                 if col:
-                    pygame.draw.rect(screen, col, (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+                    rect = pygame.Rect(
+                        x * GRID_SIZE,
+                        y * GRID_SIZE,
+                        GRID_SIZE,
+                        GRID_SIZE
+                    )
+                    pygame.draw.rect(screen, col, rect)
+                    pygame.draw.rect(screen, (0, 0, 0), rect, 1) #ブロック落下後にブロックの中の四角一つに外枠を描画
         rec=rec+1
         draw_text(screen, "time "+str(rec), 700, 100, (255,255,255), fnt_s)
         tetrimino.draw()
         pygame.display.flip()
         clock.tick(3)
         print(str(rec))
-        
-        rect = pygame.Rect(
-                        x * GRID_SIZE,
-                        y * GRID_SIZE,
-                        GRID_SIZE,
-                        GRID_SIZE
-                    )
-        pygame.draw.rect(screen, col, rect)
-        pygame.draw.rect(screen, (0, 0, 0), rect, 1) #ブロック落下後にブロックの中の四角一つに外枠を描画
-
-        tetrimino.draw()
-        pygame.display.flip()
         clock.tick(5)
 
     # フォントの初期化
