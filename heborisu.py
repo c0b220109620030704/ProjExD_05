@@ -153,8 +153,7 @@ def run_game():
     pygame.time.wait(2000)
 
     pygame.quit()
-
-        clock.tick(5)
+    clock.tick(5)
 
 
 # ゲームの実行
