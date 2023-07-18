@@ -94,9 +94,10 @@ def run_game():
     while not game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                game_over = True
                 pygame.quit()
                 return
-
+              
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     tetrimino.move(-1, 0)
@@ -140,7 +141,21 @@ def run_game():
 
         tetrimino.draw()
         pygame.display.flip()
+        clock.tick(30)
+
+    # フォントの初期化
+    pygame.font.init()
+    font = pygame.font.SysFont(None, 48)
+
+    text = font.render("GameOver", True, (255, 255, 255))
+    screen.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2 - text.get_height() // 2))
+    pygame.display.flip()
+    pygame.time.wait(2000)
+
+    pygame.quit()
+
         clock.tick(5)
+
 
 # ゲームの実行
 run_game()
