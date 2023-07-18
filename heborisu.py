@@ -158,14 +158,14 @@ def run_game():
         clock.tick(3)
         print(str(rec))
         
-                    rect = pygame.Rect(
+        rect = pygame.Rect(
                         x * GRID_SIZE,
                         y * GRID_SIZE,
                         GRID_SIZE,
                         GRID_SIZE
                     )
-                    pygame.draw.rect(screen, col, rect)
-                    pygame.draw.rect(screen, (0, 0, 0), rect, 1) #ブロック落下後にブロックの中の四角一つに外枠を描画
+        pygame.draw.rect(screen, col, rect)
+        pygame.draw.rect(screen, (0, 0, 0), rect, 1) #ブロック落下後にブロックの中の四角一つに外枠を描画
 
         tetrimino.draw()
         pygame.display.flip()
