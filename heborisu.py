@@ -1,12 +1,16 @@
 import pygame
 import random
+import time
+
 
 # ゲーム画面の設定
-WIDTH, HEIGHT = 400, 650
+pygame.init()
+WIDTH, HEIGHT = 800, 650
 GRID_SIZE = 30
-GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
+GRID_WIDTH, GRID_HEIGHT = 700 // GRID_SIZE, HEIGHT // GRID_SIZE
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
+rec=0
 
 
 # テトリスのブロックの定義
@@ -19,6 +23,7 @@ tetriminos = [
     [[1, 1, 0], [0, 1, 1]],
     [[0, 1, 0], [1, 1, 1]]
 ]
+
 
 # テトリスのブロックを表すクラス
 class Tetrimino:
@@ -34,7 +39,6 @@ class Tetrimino:
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
-
     def draw(self):
         for y, row in enumerate(self.shape):
             for x, col in enumerate(row):
@@ -50,14 +54,28 @@ class Tetrimino:
                             grid[self.y + y][self.x + x]):
                     return True
         return False
-
     def place(self, grid):
         for y, row in enumerate(self.shape):
             for x, col in enumerate(row):
                 if col:
                     grid[self.y + y][self.x + x] = self.color
 
-    def drop_to_bottom(self, grid):
+def draw_text(screen, txt, x, y, col, fnt):
+    """
+    文字列を表示する関数
+    引数1 screen：ゲームウインドウ
+    引数2 txt：文字
+    引数3 x： x座標を計算
+    引数4 y： y座標を計算
+    引数5 col： 文字の色を指定
+    引数6 fnt：文字のフォント
+    """
+    sur = fnt.render(txt, True, (255,255,255))
+    x -= sur.get_width()/2
+    y -= sur.get_height()/2
+    screen.blit(sur, [x+2, y+2])
+   
+def drop_to_bottom(self, grid):
         while not self.collides(grid):#他のブロックに衝突しなければループ
             self.move(0, 1)
         self.move(0, -1)
@@ -87,10 +105,12 @@ def check_lines(grid):
         del grid[row_index]
         grid.insert(0, [None] * GRID_WIDTH)
 
+
 # ゲームのメインループ
 def run_game():
+    global rec
+    fnt_s = pygame.font.Font(None,  40)
     grid, tetrimino, game_over = init_game()
-
     while not game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -130,6 +150,14 @@ def run_game():
         for y, row in enumerate(grid):
             for x, col in enumerate(row):
                 if col:
+                    pygame.draw.rect(screen, col, (x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+        rec=rec+1
+        draw_text(screen, "time "+str(rec), 700, 100, (255,255,255), fnt_s)
+        tetrimino.draw()
+        pygame.display.flip()
+        clock.tick(3)
+        print(str(rec))
+        
                     rect = pygame.Rect(
                         x * GRID_SIZE,
                         y * GRID_SIZE,
@@ -154,7 +182,6 @@ def run_game():
 
     pygame.quit()
     clock.tick(5)
-
 
 # ゲームの実行
 run_game()
