@@ -162,7 +162,7 @@ def run_game():
         tetrimino.draw()
         pygame.display.flip()
         clock.tick(5)
-        print(str(rec))
+        
 
     # フォントの初期化
     pygame.font.init()
